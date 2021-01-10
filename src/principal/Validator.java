@@ -28,7 +28,6 @@ public class Validator { //class for automatic validation of manually composed p
 	public Validator(JButton[] buttons) {
 		this.buttons = buttons;
 		edges=new ArrayList<Edge>();
-		//buildEdges();
 	}
 	
 	public Set<String> createEdgeSet() {
@@ -235,9 +234,6 @@ public class Validator { //class for automatic validation of manually composed p
 				sum+=dif;
 				//System.out.println(rgb1+": "+rgb2+": "+(rgb1-rgb2));
 				}
-				//if (reverseEdge.getId()==17) {
-				//	System.out.println("17::"+reverseEdge.getId()+":"+e.getId()+"::"+sum);
-				//}
 			}
 			else if (reverseEdge.getSide().equals("south")) {
 				for(int i=0;i<width;i++) {

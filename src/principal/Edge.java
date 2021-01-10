@@ -1,7 +1,5 @@
 package principal;
 
-import java.util.Comparator;
-
 public class Edge {
 	private int id;
 	private String side;

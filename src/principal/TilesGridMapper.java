@@ -47,24 +47,15 @@ public class TilesGridMapper { //class to map ongoing assembling of puzzles to c
 	}
 	
 	public void movePuzzle(String direction) {
-		int RAH=0;
 		int w=5;
 		List<JButton> sortedButtons=newButtons.stream().sorted(Comparator.comparing(e->((Point)((JButton)e).
 		getClientProperty("index")).getY()).thenComparing(Comparator.comparing(e->((Point)((JButton)e).
 		getClientProperty("index")).getX())))
 		.collect(Collectors.toList());
-		//for(JButton b:sortedButtons) {
-			//RAH++; /////
-			//if (RAH>1) break;
-			//System.out.println("RAH:"+RAH);/////
 		    Point index=null;
-			//Point index=(Point)b.getClientProperty("index");
 			Point newIndex=null;
-			//int oldIndex=index.getX()+index.getY()*w;
-			//drawingPanel.remove(oldIndex);
 			if (direction.equals("left")) {
 				System.out.println("LEFFT:"+sortedButtons.size());
-				//for(int i=sortedButtons.size()-1;i>=0;i--) {
 				    for(int i=0; i<sortedButtons.size();i++) {
 					System.out.println("BUTTON:"+sortedButtons.get(i));
 					index=getOldIndexAndRemove(sortedButtons.get(i));
@@ -75,8 +66,6 @@ public class TilesGridMapper { //class to map ongoing assembling of puzzles to c
 					System.out.println("ADDED:"+drawingPanel.getComponentCount());
 					sortedButtons.get(i).putClientProperty("index",newIndex);
 					}
-            //newIndex=new Point(index.getX()-1,index.getY());
-			//b.putClientProperty("index",newIndex);
 			}
 			else if (direction.equals("right")) {
 				for(int i=sortedButtons.size()-1;i>=0;i--) {
@@ -87,8 +76,6 @@ public class TilesGridMapper { //class to map ongoing assembling of puzzles to c
 				drawingPanel.add(sortedButtons.get(i),newIndex.getX()+newIndex.getY()*w);
 				sortedButtons.get(i).putClientProperty("index",newIndex);
 				}
-			//newIndex=new Point(index.getX()+1,index.getY());
-			//b.putClientProperty("index",newIndex);
 			}
 			else if (direction.equals("up")) {
 				for(int i=0;i<=sortedButtons.size()-1;i++) {
@@ -98,8 +85,6 @@ public class TilesGridMapper { //class to map ongoing assembling of puzzles to c
 					System.out.println("OLDIND-"+index+":"+newIndex);
 					drawingPanel.add(sortedButtons.get(i),newIndex.getX()+newIndex.getY()*w);
 					sortedButtons.get(i).putClientProperty("index",newIndex); }
-		    //newIndex=new Point(index.getX(),index.getY()-1);
-			//b.putClientProperty("index",newIndex); 
 			}
 			else if (direction.equals("down")) {
 				System.out.println("DOWN");
@@ -111,18 +96,10 @@ public class TilesGridMapper { //class to map ongoing assembling of puzzles to c
 					drawingPanel.add(sortedButtons.get(i),newIndex.getX()+newIndex.getY()*w);
 					sortedButtons.get(i).putClientProperty("index",newIndex); }
 			}
-			//System.out.println("OLDIND-"+index+":"+newIndex);
-			//System.out.println("RemovedSize"+drawingPanel.getComponentCount());
-			//drawingPanel.add(b,newIndex.getX()+newIndex.getY()*w);
-			//System.out.println("AddedSize"+drawingPanel.getComponentCount());
-		//}
 	}
 	
 	public boolean addTile(JButton addedButton, JButton curButton, String side) {
-		boolean isNotAdded=false;
 		System.out.println("BBBSIZE:"+newButtons.size());
-		//for(JButton b:newButtons) {
-		//	System.out.print(b.getClientProperty("index"));}
 		if (newButtons.size()>12) return true; ////
 		count++;
 		int w=5; int h=6;
@@ -144,9 +121,6 @@ public class TilesGridMapper { //class to map ongoing assembling of puzzles to c
 			}
 			else currentIndex=(Point)currentButton.getClientProperty("index");
 			System.out.println("POINT_INDEX:"+currentButton.getClientProperty("index"));
-			//boolean isFull=isFullLine(currentIndex,side);/////
-			//if (isFull) return;
-			//if(isOutOfBound(currentIndex,side)) return true;
 			System.out.println("INDEXX"+currentIndex+":"+currentButton);
 			if (side.equals("east")) {
 			    if (currentIndex.getX()==4) {movePuzzle("left"); currentIndex.setX(3);}
@@ -186,11 +160,6 @@ public class TilesGridMapper { //class to map ongoing assembling of puzzles to c
 		if (!newButtons.contains(currentButton) && currentButton!=null) newButtons.add(currentButton);///33333
 		drawingPanel.revalidate();
 		System.out.println("BBBAFTER:"+newButtons.size());
-		//for(JButton b:newButtons) {
-		//System.out.print(b.getClientProperty("index"));}
-		//System.out.println();
-		//List<JButton>columns=newButtons.stream().sorted(Comparator.comparing(e->((Point)((JButton)e).
-		//		getClientProperty("index")).getY())).collect(Collectors.toList());
 		return false;
 		}
 

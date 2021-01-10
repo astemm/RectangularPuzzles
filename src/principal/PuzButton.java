@@ -25,11 +25,6 @@ public class PuzButton extends JButton {
         init();
     }
 	
-	/*public PuzButton(ImageIcon icon) {
-        super(icon);
-        init();
-    } */
-	
 	public static int getClicked() {
 		return clicked;
 	}
@@ -65,7 +60,6 @@ public class PuzButton extends JButton {
 	            public void mouseExited(MouseEvent e) {
 	            	System.out.println(getParent().getName());
 	            	System.out.println(((MainWindow)getParent().getParent().getParent().getParent().getParent()).getBufferedIcon());
-	                //setBorder(BorderFactory.createLineBorder(Color.gray));
 	            	setBorder(null);
 	            }
 	        });

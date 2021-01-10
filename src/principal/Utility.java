@@ -20,30 +20,10 @@ import javax.swing.filechooser.FileFilter;
 
 public class Utility {
 	
-    /*
-	static class Entity{
-		Image im0; File f0;
-		Entity(Image im, File f) {
-			im0=im; f0=f;
-		}
-	} */
-	
-	/*
-	public static BufferedImage getImage() {
-		BufferedImage image=null;
-		try {
-			File file=new File("C:/Pictures/originals/IMAGE.jpg");
-			image = ImageIO.read(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
-		return image;
-	} */
-	
 	public static List<Image> getPuzzles() {
 		List<Image> puzzles=new ArrayList<>();
 		try{
-		File folder=new File("C:/PicturesOfPuzzles");
+		File folder=new File("./PicturesOfPuzzles");
 		File[] listOfFiles=folder.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
 				String lcName=name.toLowerCase();
@@ -98,7 +78,7 @@ public class Utility {
 	}
 	
 	private static File getRandomImage() {
-		File folder=new File("C:/PicturesOfPuzzles/originals");
+		File folder=new File("./PicturesOfPuzzles/originals");
 		File[] listOfFiles=folder.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
 				String lcName=name.toLowerCase();
@@ -124,11 +104,8 @@ public class Utility {
 		int col = 3;
 		//BufferedImage initialImage = ImageIO.read(new File("C:/Pictures/originals/IMAGE.jpg"));
 		BufferedImage initialImage = ImageIO.read(getRandomImage());
-		BufferedImage image; //=resizeImage2(initialImage,250);
-		//if (initialImage.getWidth()>initialImage.getHeight()) 
-			image=resizeImage2(initialImage,250);
-		//else image=resizeImage2(initialImage,250);
-		//BufferedImage image=resizeImage2(initialImage,250);
+		BufferedImage image;
+		image=resizeImage2(initialImage,250);
 		int width = image.getWidth();
 		int height = image.getHeight();
 		System.out.println("Image Size: " + width + "x" + height);
@@ -144,10 +121,9 @@ public class Utility {
 					System.out.println("creating piece: "+i+" "+j);
 					System.out.println(x+":"+y+"-"+dWidth+":"+dHeight);
 					BufferedImage subImage = image.getSubimage(y, x, dWidth, dHeight); //y,x
-					File outputfile = new File ("C:/PicturesOfPuzzles/IMAGE"+count+".jpg");
+					File outputfile = new File ("./PicturesOfPuzzles/IMAGE"+count+".jpg");
 					count++;
 					entities.add(new Entity(subImage,outputfile));
-					//ImageIO.write(SubImage, "jpg", outputfile);
 					y += dWidth;
 				} catch (Exception e) {
 					e.printStackTrace();

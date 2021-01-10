@@ -131,7 +131,6 @@ public class Builder { //class for automatic assembly of puzzles
 		System.out.println("id: "+firstEdge.getId());
 		System.out.println("side: "+firstEdge.getSide());
 		processEdge(firstEdge);
-		int size=this.edges.size();
 		while(this.edges.size()>2) {
 			iter++;
 			System.out.println("iter: "+iter);
@@ -274,10 +273,6 @@ public class Builder { //class for automatic assembly of puzzles
 		int north=current.getY()-1; int south=current.getY()+1;
 		if (side.equals("east")) {
 			filteredButtons=buttons.stream().filter(b->((Point)b.getClientProperty("index")).getX()==east).collect(Collectors.toList());
-			//if (filteredButtons.size()>0) { 
-			//	for(JButton b:filteredButtons)
-			//	{System.out.println("EASssT_SIZE"+b.getClientProperty("index"));
-			//System.out.println("EASssT_SIZE"+b.getClientProperty("index")); } }
 			if (filteredButtons.size()>0) return false; //{System.out.println("OUSIDE"); return false;}
 		}
 		if (side.equals("west")) {
@@ -673,9 +668,6 @@ public class Builder { //class for automatic assembly of puzzles
 				sum+=dif;
 				//System.out.println(rgb1+": "+rgb2+": "+(rgb1-rgb2));
 				}
-				//if (reverseEdge.getId()==17) {
-				//	System.out.println("17::"+reverseEdge.getId()+":"+e.getId()+"::"+sum);
-				//}
 			}
 			else if (reverseEdge.getSide().equals("south")) {
 				for(int i=0;i<width;i++) {

@@ -167,19 +167,6 @@ public class MainWindow extends JFrame {
 		return newButtons;
 	}
 	
-	/*
-	private void checkImage() {
-		BufferedImage image=Utility.getImage();
-		int sum1=0,sum2=0,diff=0;
-		for(int i=0;i<85;i++) {
-			int rgb1=image.getRGB(82,i);
-			int rgb2=image.getRGB(83,i);
-			diff+=Math.abs(rgb2-rgb1);
-			sum1+=rgb1; sum2+=rgb2; 
-		}
-		System.out.println("SUMS:"+sum1+":"+sum2+":"+(sum2-sum1)+"-"+diff);
-	} */
-	
 	
 	private boolean isRectangularLayout (JButton[] buttons) {
 		int[] sequence={0,1,2,5,6,7,10,11,12,15,16,17}; //right sequence of jbutton indexes
@@ -339,71 +326,10 @@ public class MainWindow extends JFrame {
 		System.out.println("CheckMANUALS:"+isVertical+"-"+isHorizontal);
 		return (isVertical && isHorizontal);
 	}
-	
-	
-	private void checkEdges(JButton[] buttons,int index) {
-		int width=((BufferedImage)((ImageIcon)buttons[index].getIcon()).getImage()).getWidth();
-		int height=((BufferedImage)((ImageIcon)buttons[index].getIcon()).getImage()).getHeight();
-		
-		int [] verticals={0,1,5,6,10,11,15,16};//index of puzzle cells in row except the last cell in it
-		for (int cell:verticals) {
-		int sum=0;
-		for(int i=0;i<height;i++) {
-		int rgb1=((BufferedImage)((ImageIcon)buttons[index+cell].getIcon()).getImage()).getRGB(width-1,i);
-		int rgb2=((BufferedImage)((ImageIcon)buttons[index+1+cell].getIcon()).getImage()).getRGB(0,i);
-		int dif=Math.abs(rgb1-rgb2);
-		sum+=dif;
-		//System.out.println(rgb1+": "+rgb2+": "+(rgb1-rgb2));
-		}
-		System.out.println("SAD of adjacent edges: "+sum+"--"+ ""+(index+cell)+"and"+(index+cell+1));
-				//+ "//SAD of 1st row 1st vertical edge pair
-		}
-		
-		int [] horizontals={0,1,2,5,6,7,10,11,12};//index of puzzle cells in row except last row
-		//int [] horizontals={0};//index of puzzle cells in row
-		for (int cell:horizontals) {
-		int sum=0;
-		int sumR=0;
-		int sumG=0;
-		int sumB=0;
-		for(int i=0;i<width;i++) {
-		int rgb1=((BufferedImage)((ImageIcon)buttons[index+cell].getIcon()).getImage()).getRGB(i,height-1);
-		int rgb2=((BufferedImage)((ImageIcon)buttons[index+5+cell].getIcon()).getImage()).getRGB(i,0);
-		int dif=Math.abs(rgb1-rgb2);
-		sum+=dif;
-		/*Color red1=new Color(rgb1);
-		Color red2=new Color(rgb2);
-		sumR+=Math.abs(red1.getRed()-red2.getRed());
-		sumG+=Math.abs(red1.getGreen()-red2.getGreen());
-		sumB+=Math.abs(red1.getBlue()-red2.getBlue());  */
-		
-		//System.out.println(rgb1+": "+rgb2+": "+(rgb1-rgb2));
-		}
-		System.out.println("SAD of adjacent edges: "+sum+"--"+ ""+(index+cell)+"and"+(index+cell+5));
-				//+ "//SAD of 1st row 1st horizontal edge pair
-		/*System.out.println("Red: "+sumR);
-		System.out.println("Green: "+sumG);
-		System.out.println("Blue: "+sumB);
-		int avg=(sumR+sumG+sumB)/3;
-		System.out.println("Average: "+avg); */
-
-		}
-		
-		/*int sum1=0;
-		for(int i=0;i<width;i++) {
-			int rgb1=((BufferedImage)((ImageIcon)buttons[12].getIcon()).getImage()).getRGB(i,height-1);
-			int rgb2=((BufferedImage)((ImageIcon)buttons[17].getIcon()).getImage()).getRGB(i,0);
-			int dif=Math.abs(rgb1-rgb2);
-			sum1+=dif;
-			System.out.println(rgb1+": "+rgb2+": "+(rgb1-rgb2));
-			}  
-		System.out.println(sum1); */
-	}
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		//frame = new JFrame();
 		setBounds(100, 100, 750, 650);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -424,7 +350,6 @@ public class MainWindow extends JFrame {
 				System.out.println(fragments.size());
 				initMosaics(fragments);
 				createMainStage();
-				//checkImage();
 				lblValid.setText("");
 				}
 		});
@@ -454,12 +379,9 @@ public class MainWindow extends JFrame {
 				}
 				getContentPane().remove(midPanel);
 				builder=new Builder(cloneButtons(getButtons()),creatSecondStage()); //midPanel
-				//builder.buildEdges2(Utility.getPuzzles());
 				builder.buildEdges();
 				builder.traverseEdges();
 				isAutoAssembled=true;
-				//System.out.println("PANEL2::"+midPanel);
-				//System.out.println("DDDD::"+Stream.of(getNewButtons()).filter(e->e.getIcon()!=null).collect(Collectors.toList()).size());
 			}
 		});
 		btnAssembleAutomatically.setBounds(124, 555, 172, 23);
