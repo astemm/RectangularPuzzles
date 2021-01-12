@@ -81,7 +81,6 @@ public class MainWindow extends JFrame {
 	private void initMosaics(List<Image> fragments) {
 		BufferedImage im=(BufferedImage)fragments.get(0);
 		w=im.getWidth(); h=im.getHeight();
-		System.out.println(im.getWidth()+" "+im.getHeight());
 		if (initPanel!=null) getContentPane().remove(initPanel);
 		initPanel = new JPanel();
 		initPanel.setName("initPane");
@@ -102,20 +101,15 @@ public class MainWindow extends JFrame {
 		for (Component c:getContentPane().getComponents()) {
 			if (c.getName()!=null) {if (c.getName().equals("buildPane")) c1=c;}
 		}
-		System.out.println("c1:"+c1);
-		//if (c1!=null) getContentPane().remove(c1);
 		if(midPanel!=null) {getContentPane().remove(midPanel);}
 		Optional<Component> bPane=Stream.of(getContentPane().getComponents()).filter(e->e.getName()!=null&&e.getName().equals("buildPane")).findFirst();
-		System.out.println(bPane);
 		if (bPane.isPresent()) {getContentPane().remove(bPane.get());
-		System.out.println("bbbbbbbbbbbbbbbb");
 		}
 		midPanel=new JPanel();
 		midPanel.setName("midPane");
 		midPanel.setBounds(52+3*w, 46, 5*w, 6*h);
 		getContentPane().add(midPanel); 
 		midPanel.setLayout(new GridLayout(6, 5));
-		//midPanel.setBorder(BorderFactory.createLineBorder(Color.cyan));
 		for(int i=0;i<30;i++) {PuzButton btn = new PuzButton();
 		btn.setContentAreaFilled(false); 
 		midPanel.add(btn);}
@@ -129,10 +123,8 @@ public class MainWindow extends JFrame {
 		buildPanel.setBounds(52+3*w, 46, 5*w, 6*h);
 		getContentPane().add(buildPanel);
 		buildPanel.setLayout(new GridLayout(6, 5));
-		//midPanel.setBorder(BorderFactory.createLineBorder(Color.cyan));
 		for(int i=0;i<30;i++) {JButton btn = new JButton();
 		btn.setContentAreaFilled(false);
-		//btn.setBorder(null);
 		buildPanel.add(btn);}
 		buildPanel.validate();
 		return buildPanel;
@@ -147,23 +139,18 @@ public class MainWindow extends JFrame {
 			buttons[i]=button;
 			i++;
 		}
-		System.out.println(buttons.length);
 		return buttons;
 	}
 	
 	
 	private JButton[] cloneButtons(JButton[] buttons) {
 		JButton[] newButtons=new JButton[buttons.length];
-		//new PuzButton[buttons.length];
 		int l=0;
 		for(JButton jb:buttons) {  ImageIcon icon=(ImageIcon)jb.getIcon();
 			JButton b=new JButton(icon);
 			b.setBorder(null);
 			newButtons[l]=b; l++;
 	}
-		System.out.println("EQUAL:"+(buttons[0]==newButtons[0]));
-		System.out.println("EQUAL2:"+(buttons[0].getIcon().equals(newButtons[0].getIcon())));
-		System.out.println(l);
 		return newButtons;
 	}
 	
@@ -174,7 +161,6 @@ public class MainWindow extends JFrame {
 		for(int d=0;d<sequence.length;d++) { //d- difference between 0-index and starting index of other puzzles tiles
 		if (buttons[sequence[d]].getIcon()!=null) { //0,1,2,5,6,7,10,11,12,15,16,17,20,21,22
 			for(int j=1;j<sequence.length;j++) {
-				//System.out.println(sequence[j]+sequence[d]);
 				if (buttons[sequence[j]+sequence[d]].getIcon()==null) return false;
 			}
 			break;
@@ -186,7 +172,6 @@ public class MainWindow extends JFrame {
 	
 	private boolean validatePuzllesLayout() {
 		boolean isCorrectLayout=false;
-		
 		Component[] components=midPanel.getComponents();
 		JButton[] buttons=new JButton[components.length];
 		int imageButtons=0;
@@ -198,7 +183,6 @@ public class MainWindow extends JFrame {
 		}
 		
 		imageButtons=(int)Stream.of(buttons).filter(e->e.getIcon()!=null).count();//count the manually pulled over tiles to second stage 
-		System.out.println("IMMMBTTN:"+imageButtons);
 		if (imageButtons<12) return false;
 		
 		int ind=0;
@@ -209,7 +193,6 @@ public class MainWindow extends JFrame {
 		}
 		
 		isCorrectLayout=isRectangularLayout(buttons); //is final image of rectangular non-empty layout of 12 tiles
-		System.out.println("CorrectLayout:"+isCorrectLayout);
 		
 		JButton[] fullButtons=new JButton[12]; //final non-empty jbutton array 3*4 manually composed
 		for(int t=0; t<fullButtons.length; t++) {
@@ -223,68 +206,59 @@ public class MainWindow extends JFrame {
 	
 	private boolean notValidHorizontalEdges(JButton[] buttons, int index) {
 		boolean CheckL; boolean CheckR;
-		System.out.println("CHECKKK::");
 		if(index<8) {
 		Edge leftSouth=validator.getEdge(buttons[index],"south"); 
 		Edge leftNorth=validator.getEdge(buttons[index+3],"north");
 		Edge isClosest=validator.findClosest(leftSouth);
 		CheckL=isClosest!=null?(leftNorth.getId()==isClosest.getId()):false;
-		System.out.println("CheckLL:"+CheckL+"-"+leftSouth.getId()+":"+leftNorth.getId());
 		
 		Edge rightSouth=validator.getEdge(buttons[index+1],"south"); 
 		Edge rightNorth=validator.getEdge(buttons[index+4],"north");
 		isClosest=validator.findClosest(rightSouth);
 		CheckR=isClosest!=null?(rightNorth.getId()==isClosest.getId()):false;
-		System.out.println("CheckRR:"+CheckR+"-"+rightSouth.getId()+":"+rightNorth.getId());}
+		}
 		else {
 		Edge leftNorth=validator.getEdge(buttons[index],"north"); 
 		Edge leftSouth=validator.getEdge(buttons[index-3],"south");
 		Edge isClosest=validator.findClosest(leftNorth);
 		CheckL=isClosest!=null?(leftSouth.getId()==isClosest.getId()):false;
-		System.out.println("CheckLL:"+CheckL+"-"+leftNorth.getId()+":"+leftSouth.getId());
 		
 		Edge rightNorth=validator.getEdge(buttons[index+1],"north"); 
 		Edge rightSouth=validator.getEdge(buttons[index-2],"south");
 		isClosest=validator.findClosest(rightNorth);
 		CheckR=isClosest!=null?(rightSouth.getId()==isClosest.getId()):false;
-		System.out.println("CheckRR:"+CheckR+"-"+rightNorth.getId()+":"+rightSouth.getId());}
+		}
 		
 		boolean result=!CheckL && !CheckR;
-		System.out.println("ResultSouth:"+index+"-"+result);
 		return result;
 	}
 	
 	private boolean notValidVerticalEdges(JButton[] buttons, int index) {
 		boolean CheckT; boolean CheckB;
-		System.out.println("CHECKKK::");
 		if((index+1)%3!=0) {
 		Edge topEast=validator.getEdge(buttons[index],"east"); 
 		Edge topWest=validator.getEdge(buttons[index+1],"west");
 		Edge isClosest=validator.findClosest(topEast);
 		CheckT=isClosest!=null?(topWest.getId()==isClosest.getId()):false;
-		System.out.println("CheckTT:"+CheckT+"-"+topEast.getId()+":"+topWest.getId());
 		
 		Edge bottomEast=validator.getEdge(buttons[index+3],"east"); 
 		Edge bottomWest=validator.getEdge(buttons[index+4],"west");
 		isClosest=validator.findClosest(bottomEast);
 		CheckB=isClosest!=null?(bottomWest.getId()==isClosest.getId()):false;
-		System.out.println("CheckBB:"+CheckB+"-"+bottomEast.getId()+":"+bottomWest.getId()); }
+        }
 		else {
 			Edge topWest=validator.getEdge(buttons[index],"west"); 
 			Edge topEast=validator.getEdge(buttons[index-1],"east");
 			Edge isClosest=validator.findClosest(topWest);
 			CheckT=isClosest!=null?(topEast.getId()==isClosest.getId()):false;
-			System.out.println("CheckTT:"+CheckT+"-"+topWest.getId()+":"+topEast.getId());
 			
 			Edge bottomWest=validator.getEdge(buttons[index+3],"west"); 
 			Edge bottomEast=validator.getEdge(buttons[index+2],"east");
 			isClosest=validator.findClosest(bottomWest);
 			CheckB=isClosest!=null?(bottomEast.getId()==isClosest.getId()):false;
-			System.out.println("CheckBB:"+CheckB+"-"+bottomWest.getId()+":"+bottomEast.getId());
 		}
 		
 		boolean result=!CheckT && !CheckB;
-		System.out.println("ResultEast:"+index+"-"+result);
 		return result;
 	}
 	
@@ -300,12 +274,8 @@ public class MainWindow extends JFrame {
 			Edge left=validator.getEdge(buttons[cell],"east"); //(buttons[index+cell],"east");
 			Edge right=validator.getEdge(buttons[1+cell],"west"); //(buttons[index+1+cell],"west");
 			Edge isClosest=validator.findClosest(left);
-			//System.out.println("EDGESclosest1:"+left.getId()+":"+right.getId()+"::"+isClosest.getId());
-			System.out.println(right==isClosest);
-			System.out.println(right.getId()+":"+isClosest);
 			boolean Vcheck=isClosest!=null?(right.getId()==isClosest.getId()):false;
 			if (!Vcheck) {if (notValidHorizontalEdges(buttons,cell)) vertErrors++;}//{isVertical=false; break;}
-			System.out.println("VERTICAL:"+vertErrors);
 		}
 		
 		int [] horizontals={0,1,2,3,4,5,6,7,8}; 
@@ -314,11 +284,8 @@ public class MainWindow extends JFrame {
 			Edge top=validator.getEdge(buttons[cell],"south"); //(buttons[index+cell],"south");
 			Edge bottom=validator.getEdge(buttons[3+cell],"north"); //(buttons[index+5+cell],"north");
 			Edge isClosest=validator.findClosest(top);
-			//System.out.println("EDGESclosest2:"+top.getId()+":"+bottom.getId()+"::"+isClosest.getId());
-			System.out.println(bottom==isClosest);
 			boolean Hcheck=isClosest!=null?(bottom.getId()==isClosest.getId()):false;
-			if (!Hcheck) {if (notValidVerticalEdges(buttons,cell)) horizErrors++;}//{isHorizontal=false; break;}
-			System.out.println("HORIZONT:"+horizErrors);
+			if (!Hcheck) {if (notValidVerticalEdges(buttons,cell)) horizErrors++;}
 		}
 		System.out.println("Errors:"+vertErrors+"-"+horizErrors);
 		isVertical=(vertErrors<1);
@@ -347,7 +314,6 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				PuzButton.setClicked(0);
 				fragments=Utility.getPuzzles();
-				System.out.println(fragments.size());
 				initMosaics(fragments);
 				createMainStage();
 				lblValid.setText("");
